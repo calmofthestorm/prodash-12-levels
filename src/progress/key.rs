@@ -11,7 +11,20 @@ pub(crate) type Id = u16;
 
 /// A type identifying a spot in the hierarchy of `Tree` items.
 #[derive(Copy, Clone, Default, Hash, Eq, PartialEq, Ord, PartialOrd, Debug)]
-pub struct Key(Option<Id>, Option<Id>, Option<Id>, Option<Id>);
+pub struct Key(
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+    Option<Id>,
+);
 
 /// Determines if a sibling is above or below in the given level of hierarchy
 #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Debug)]
@@ -52,6 +65,14 @@ pub struct Adjacency(
     pub SiblingLocation,
     pub SiblingLocation,
     pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
+    pub SiblingLocation,
 );
 
 impl Adjacency {
@@ -59,11 +80,84 @@ impl Adjacency {
     pub fn level(&self) -> Level {
         use SiblingLocation::*;
         match self {
-            Adjacency(NotFound, NotFound, NotFound, NotFound) => 0,
-            Adjacency(_a, NotFound, NotFound, NotFound) => 1,
-            Adjacency(_a, _b, NotFound, NotFound) => 2,
-            Adjacency(_a, _b, _c, NotFound) => 3,
-            Adjacency(_a, _b, _c, _d) => 4,
+            Adjacency(
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+            ) => 0,
+            Adjacency(
+                _a,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+            ) => 1,
+            Adjacency(
+                _a,
+                _b,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+            ) => 2,
+            Adjacency(
+                _a,
+                _b,
+                _c,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+            ) => 3,
+            Adjacency(
+                _a,
+                _b,
+                _c,
+                _d,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+                NotFound,
+            ) => 4,
+            Adjacency(_a, _b, _c, _d, _e, NotFound, NotFound, NotFound, NotFound, NotFound, NotFound, NotFound) => 5,
+            Adjacency(_a, _b, _c, _d, _e, _f, NotFound, NotFound, NotFound, NotFound, NotFound, NotFound) => 6,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, NotFound, NotFound, NotFound, NotFound, NotFound) => 7,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, _h, NotFound, NotFound, NotFound, NotFound) => 8,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, _h, _i, NotFound, NotFound, NotFound) => 9,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, _h, _i, _j, NotFound, NotFound) => 10,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, NotFound) => 11,
+            Adjacency(_a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l) => 12,
         }
     }
     /// Get a reference to the sibling location at `level`.
@@ -73,6 +167,14 @@ impl Adjacency {
             2 => &self.1,
             3 => &self.2,
             4 => &self.3,
+            5 => &self.4,
+            6 => &self.5,
+            7 => &self.6,
+            8 => &self.7,
+            9 => &self.8,
+            10 => &self.9,
+            11 => &self.10,
+            12 => &self.11,
             _ => return None,
         })
     }
@@ -83,6 +185,14 @@ impl Adjacency {
             2 => &mut self.1,
             3 => &mut self.2,
             4 => &mut self.3,
+            5 => &mut self.4,
+            6 => &mut self.5,
+            7 => &mut self.6,
+            8 => &mut self.7,
+            9 => &mut self.8,
+            10 => &mut self.9,
+            11 => &mut self.10,
+            12 => &mut self.11,
             _ => return None,
         })
     }
@@ -105,13 +215,75 @@ impl Key {
     /// Return the key to the child identified by `child_id` located in a new nesting level below `self`.
     pub fn add_child(self, child_id: Id) -> Key {
         match self {
-            Key(None, None, None, None) => Key(Some(child_id), None, None, None),
-            Key(a, None, None, None) => Key(a, Some(child_id), None, None),
-            Key(a, b, None, None) => Key(a, b, Some(child_id), None),
-            Key(a, b, c, None) => Key(a, b, c, Some(child_id)),
-            Key(a, b, c, _d) => {
+            Key(None, None, None, None, None, None, None, None, None, None, None, None) => Key(
+                Some(child_id),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            ),
+            Key(a, None, None, None, None, None, None, None, None, None, None, None) => Key(
+                a,
+                Some(child_id),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            ),
+            Key(a, b, None, None, None, None, None, None, None, None, None, None) => Key(
+                a,
+                b,
+                Some(child_id),
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            ),
+            Key(a, b, c, None, None, None, None, None, None, None, None, None) => {
+                Key(a, b, c, Some(child_id), None, None, None, None, None, None, None, None)
+            }
+            Key(a, b, c, d, None, None, None, None, None, None, None, None) => {
+                Key(a, b, c, d, Some(child_id), None, None, None, None, None, None, None)
+            }
+            Key(a, b, c, d, e, None, None, None, None, None, None, None) => {
+                Key(a, b, c, d, e, Some(child_id), None, None, None, None, None, None)
+            }
+            Key(a, b, c, d, e, f, None, None, None, None, None, None) => {
+                Key(a, b, c, d, e, f, Some(child_id), None, None, None, None, None)
+            }
+            Key(a, b, c, d, e, f, g, None, None, None, None, None) => {
+                Key(a, b, c, d, e, f, g, Some(child_id), None, None, None, None)
+            }
+
+            Key(a, b, c, d, e, f, g, h, None, None, None, None) => {
+                Key(a, b, c, d, e, f, g, h, Some(child_id), None, None, None)
+            }
+            Key(a, b, c, d, e, f, g, h, i, None, None, None) => {
+                Key(a, b, c, d, e, f, g, h, i, Some(child_id), None, None)
+            }
+            Key(a, b, c, d, e, f, g, h, i, j, None, None) => Key(a, b, c, d, e, f, g, h, i, j, Some(child_id), None),
+            Key(a, b, c, d, e, f, g, h, i, j, k, None) => Key(a, b, c, d, e, f, g, h, i, j, k, Some(child_id)),
+            Key(a, b, c, d, e, f, g, _h, _i, _j, _k, _l) => {
                 crate::warn!("Maximum nesting level reached. Adding tasks to current parent");
-                Key(a, b, c, Some(child_id))
+                Key(a, b, c, d, e, f, g, _h, _i, _j, _k, Some(child_id))
             }
         }
     }
@@ -119,11 +291,58 @@ impl Key {
     /// The level of hierarchy a node is placed in, i.e. the amount of path components
     pub fn level(&self) -> Level {
         match self {
-            Key(None, None, None, None) => 0,
-            Key(Some(_), None, None, None) => 1,
-            Key(Some(_), Some(_), None, None) => 2,
-            Key(Some(_), Some(_), Some(_), None) => 3,
-            Key(Some(_), Some(_), Some(_), Some(_)) => 4,
+            Key(None, None, None, None, None, None, None, None, None, None, None, None) => 0,
+            Key(Some(_), None, None, None, None, None, None, None, None, None, None, None) => 1,
+            Key(Some(_), Some(_), None, None, None, None, None, None, None, None, None, None) => 2,
+            Key(Some(_), Some(_), Some(_), None, None, None, None, None, None, None, None, None) => 3,
+            Key(Some(_), Some(_), Some(_), Some(_), None, None, None, None, None, None, None, None) => 4,
+            Key(Some(_), Some(_), Some(_), Some(_), Some(_), None, None, None, None, None, None, None) => 5,
+            Key(Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), None, None, None, None, None, None) => 6,
+            Key(Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), None, None, None, None, None) => 7,
+            Key(Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), None, None, None, None) => 8,
+            Key(Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), Some(_), None, None, None) => 9,
+            Key(
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                None,
+                None,
+            ) => 10,
+            Key(
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                None,
+            ) => 11,
+            Key(
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+                Some(_),
+            ) => 12,
             _ => unreachable!("This is a bug - Keys follow a certain pattern"),
         }
     }
@@ -135,6 +354,14 @@ impl Key {
             2 => self.1.as_ref(),
             3 => self.2.as_ref(),
             4 => self.3.as_ref(),
+            5 => self.4.as_ref(),
+            6 => self.5.as_ref(),
+            7 => self.6.as_ref(),
+            8 => self.7.as_ref(),
+            9 => self.8.as_ref(),
+            10 => self.9.as_ref(),
+            11 => self.10.as_ref(),
+            12 => self.11.as_ref(),
             _ => None,
         }
     }
@@ -234,7 +461,7 @@ impl Key {
 
     /// The maximum amount of path components we can represent.
     pub const fn max_level() -> Level {
-        4
+        8
     }
 }
 
